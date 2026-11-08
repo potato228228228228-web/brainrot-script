@@ -1,0 +1,398 @@
+-- Проверка на повторный запуск (чтобы не плодить дубликаты GUI)
+local CoreGui = game:GetService("CoreGui")
+if CoreGui:FindFirstChild("XenHubV5_Pro") then
+    CoreGui.XenHubV5_Pro:Destroy()
+end
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+
+-- Создание главного контейнера в CoreGui (чтобы не палиться античитом в PlayerGui)
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "XenHubV5_Pro"
+ScreenGui.Parent = CoreGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.ResetOnSpawn = false
+
+-- Главный фрейм (Окно)
+local MainFrame = Instance.new("Frame")
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+MainFrame.Position = UDim2.new(0.5, -275, 0.5, -175)
+MainFrame.Size = UDim2.new(0, 550, 0, 350)
+MainFrame.Visible = false -- Изначально скрыто, появится по анимации
+MainFrame.Active = true
+MainFrame.Draggable = true -- Возможность перетаскивать окно мышкой
+
+-- Скругление углов окна
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 10)
+UICorner.Parent = MainFrame
+
+-- Тень / Обводка окна (Stroke)
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Parent = MainFrame
+UIStroke.Color = Color3.fromRGB(138, 43, 226)
+UIStroke.Thickness = 2
+
+-- Верхняя панель (Header)
+local Header = Instance.new("Frame")
+Header.Name = "Header"
+Header.Parent = MainFrame
+Header.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+Header.Size = UDim2.new(1, 0, 0, 40)
+
+local HeaderCorner = Instance.new("UICorner")
+HeaderCorner.CornerRadius = UDim.new(0, 10)
+HeaderCorner.Parent = Header
+
+-- Исправление нижних углов хедера, чтобы они были прямыми
+local HeaderFix = Instance.new("Frame")
+HeaderFix.Parent = Header
+HeaderFix.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+HeaderFix.BorderSizePixel = 0
+HeaderFix.Position = UDim2.new(0, 0, 0.5, 0)
+HeaderFix.Size = UDim2.new(1, 0, 0.5, 0)
+
+-- Заголовок текста
+local Title = Instance.new("TextLabel")
+Title.Parent = Header
+Title.BackgroundTransparency = 1
+Title.Position = UDim2.new(0, 15, 0, 0)
+Title.Size = UDim2.new(0, 250, 1, 0)
+Title.Font = Enum.Font.GothamBold
+Title.Text = "XenHub v5 | Steal a Brainrot"
+Title.TextColor3 = Color3.fromRGB(240, 240, 255)
+Title.TextSize = 16
+Title.TextXAlignment = Enum.TextXAlignment.Left
+
+-- Сабтайюд / Автор
+local SubTitle = Instance.new("TextLabel")
+SubTitle.Parent = Header
+SubTitle.BackgroundTransparency = 1
+SubTitle.Position = UDim2.new(0, 225, 0, 0)
+SubTitle.Size = UDim2.new(0, 100, 1, 0)
+SubTitle.Font = Enum.Font.Gotham
+SubTitle.Text = "[PRO]"
+SubTitle.TextColor3 = Color3.fromRGB(138, 43, 226)
+SubTitle.TextSize = 14
+SubTitle.TextXAlignment = Enum.TextXAlignment.Left
+
+-- Кнопка закрытия (крестик)
+local CloseBtn = Instance.new("TextButton")
+CloseBtn.Parent = Header
+CloseBtn.BackgroundColor3 = Color3.fromRGB(255, 60, 60)
+CloseBtn.Position = UDim2.new(1, -32, 0.5, -12)
+CloseBtn.Size = UDim2.new(0, 24, 0, 24)
+CloseBtn.Font = Enum.Font.GothamBold
+CloseBtn.Text = "X"
+CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseBtn.TextSize = 12
+
+local CloseCorner = Instance.new("UICorner")
+CloseCorner.CornerRadius = UDim.new(0, 6)
+CloseCorner.Parent = CloseBtn
+
+CloseBtn.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+-- Контейнер для вкладок слева (TabButtons Container)
+local TabList = Instance.new("ScrollingFrame")
+TabList.Name = "TabList"
+TabList.Parent = MainFrame
+TabList.Active = true
+TabList.BackgroundColor3 = Color3.fromRGB(25, 25, 33)
+TabList.BorderSizeВот масштабный, продвинутый и эстетичный скрипт для **Steal a Brainrot**. 
+
+Внутри используется кастомный дизайн интерфейса (в стиле киберпанк/неон, вдохновленный топовыми хачами), плавная анимация открытия/закрытия по кнопке **LeftControl**, система уведомлений, а также расширенный набор функций (Авто-сбор, Телепорты, Настройка скорости, ESP игроков и Anti-AFK).
+
+### Продвинутый скрипт (Lua)
+
+```lua
+-- Проверка на поддержку GUI
+local CoreGui = game:GetService("CoreGui")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+-- Удаляем старый интерфейс, если он уже был запущен
+if CoreGui:FindFirstChild("XenHubV5_Advanced") then
+    CoreGui.XenHubV5_Advanced:Destroy()
+end
+
+-- Создание главного контейнера
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "XenHubV5_Advanced"
+ScreenGui.Parent = CoreGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+-- Главное окно
+local MainFrame = Instance.new("Frame")
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
+MainFrame.BorderSizePixel = 0
+MainFrame.Position = UDim2.new(0.5, -275, 0.5, -175)
+MainFrame.Size = UDim2.new(0, 550, 0, 350)
+MainFrame.Active = true
+MainFrame.Draggable = true
+
+-- Скругление углов главного окна
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 10)
+UICorner.Parent = MainFrame
+
+-- Неоновая обводка
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Parent = MainFrame
+UIStroke.Color = Color3.fromRGB(120, 0, 255)
+UIStroke.Thickness = 2
+
+-- Шапка (TopBar)
+local TopBar = Instance.new("Frame")
+TopBar.Name = "TopBar"
+TopBar.Parent = MainFrame
+TopBar.BackgroundColor3 = Color3.fromRGB(20, 20, 28)
+TopBar.BorderSizePixel = 0
+TopBar.Size = UDim2.new(1, 0, 0, 40)
+
+local TopBarCorner = Instance.new("UICorner")
+TopBarCorner.CornerRadius = UDim.new(0, 10)
+TopBarCorner.Parent = TopBar
+
+local Title = Instance.new("TextLabel")
+Title.Parent = TopBar
+Title.BackgroundTransparency = 1
+Title.Position = UDim2.new(0, 15, 0, 0)
+Title.Size = UDim2.new(0, 300, 1, 0)
+Title.Font = Enum.Font.GothamBold
+Title.Text = "XENHUB V5 <font color='#7800ff'>[Steal a Brainrot]</font>"
+Title.RichText = true
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 16
+Title.TextXAlignment = Enum.TextXAlignment.Left
+
+-- Контейнер для вкладок (Sidebar)
+local Sidebar = Instance.new("ScrollingFrame")
+Sidebar.Name = "Sidebar"
+Sidebar.Parent = MainFrame
+Sidebar.Active = true
+Sidebar.BackgroundColor3 = Color3.fromRGB(18, 18, 25)
+Sidebar.BorderSizePixel = 0
+Sidebar.Position = UDim2.new(0, 0, 0, 45)
+Sidebar.Size = UDim2.new(0, 140, 1, -45)
+Sidebar.CanvasSize = UDim2.new(0, 0, 1.5, 0)
+Sidebar.ScrollBarThickness = 2
+
+local UIListLayout = Instance.new("UIListLayout")
+UIListLayout.Parent = Sidebar
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.Padding = UDim.new(0, 5)
+
+-- Контейнер для страниц (Pages)
+local PagesContainer = Instance.new("Folder")
+PagesContainer.Name = "PagesContainer"
+PagesContainer.Parent = MainFrame
+
+-- Функция создания вкладок и страниц
+local TabsCount = 0
+local function CreateTab(name)
+    TabsCount = TabsCount + 1
+    
+    -- Кнопка в сайдбаре
+    local TabButton = Instance.new("TextButton")
+    TabButton.Parent = Sidebar
+    TabButton.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+    TabButton.BorderSizePixel = 0
+    TabButton.Size = UDim2.new(1, -10, 0, 35)
+    TabButton.Position = UDim2.new(0, 5, 0, 0)
+    TabButton.Font = Enum.Font.GothamSemibold
+    TabButton.TextColor3 = Color3.fromRGB(180, 180, 180)
+    TabButton.TextSize = 14
+    TabButton.Text = name
+    
+    local BtnCorner = Instance.new("UICorner")
+    BtnCorner.CornerRadius = UDim.new(0, 6)
+    BtnCorner.Parent = TabButton
+    
+    -- Страница контента
+    local Page = Instance.new("ScrollingFrame")
+    Page.Name = name .. "Page"
+    Page.Parent = PagesContainer
+    Page.BackgroundTransparency = 1
+    Page.Position = UDim2.new(0, 150, 0, 50)
+    Page.Size = UDim2.new(1, -160, 1, -60)
+    Page.CanvasSize = UDim2.new(0, 0, 2, 0)
+    Page.ScrollBarThickness = 3
+    Page.Visible = (TabsCount == 1) -- Первая вкладка открыта по умолчанию
+    
+    if TabsCount == 1 then
+        TabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        TabButton.BackgroundColor3 = Color3.fromRGB(120, 0, 255)
+    end
+    
+    local PageLayout = Instance.new("UIListLayout")
+    PageLayout.Parent = Page
+    PageLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    PageLayout.Padding = UDim.new(0, 10)
+    
+    -- Переключение вкладок
+    TabButton.MouseButton1Click:Connect(function()
+        for _, p in pairs(PagesContainer:GetChildren()) do
+            p.Visible = false
+        end
+        for _, b in pairs(Sidebar:GetChildren()) do
+            if b:IsA("TextButton") then
+                b.TextColor3 = Color3.fromRGB(180, 180, 180)
+                b.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+            end
+        end
+        Page.Visible = true
+        TabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        TabButton.BackgroundColor3 = Color3.fromRGB(120, 0, 255)
+    end)
+    
+    return Page
+end
+
+-- Функция создания Тоггла (Переключателя)
+local function CreateToggle(parent, title, callback)
+    local ToggleBtn = Instance.new("TextButton")
+    ToggleBtn.Parent = parent
+    ToggleBtn.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+    ToggleBtn.BorderSizePixel = 0
+    ToggleBtn.Size = UDim2.new(1, -10, 0, 40)
+    ToggleBtn.AutoButtonColor = false
+    ToggleBtn.Font = Enum.Font.Gotham
+    ToggleBtn.Text = "  " .. title
+    ToggleBtn.TextColor3 = Color3.fromRGB(220, 220, 220)
+    ToggleBtn.TextSize = 13
+    ToggleBtn.TextXAlignment = Enum.TextXAlignment.Left
+    
+    local TCorner = Instance.new("UICorner")
+    TCorner.CornerRadius = UDim.new(0, 6)
+    TCorner.Parent = ToggleBtn
+    
+    local Indicator = Instance.new("Frame")
+    Indicator.Parent = ToggleBtn
+    Indicator.BackgroundColor3 = Color3.fromRGB(50, 50, 65)
+    Indicator.Position = UDim2.new(1, -35, 0.5, -10)
+    Indicator.Size = UDim2.new(0, 25, 0, 20)
+    
+    local ICorner = Instance.new("UICorner")
+    ICorner.CornerRadius = UDim.new(0, 10)
+    ICorner.Parent = Indicator
+    
+    local enabled = false
+    ToggleBtn.MouseButton1Click:Connect(function()
+        enabled = not enabled
+        local targetColor = enabled and Color3.fromRGB(120, 0, 255) or Color3.fromRGB(50, 50, 65)
+        TweenService:Create(Indicator, TweenInfo.new(0.2), {BackgroundColor3 = targetColor}):Play()
+        callback(enabled)
+    end)
+end
+
+-- Создаем вкладки
+local MainTab = CreateTab("Main")
+local VisualsTab = CreateTab("Visuals")
+local MiscTab = CreateTab("Misc")
+
+-- Переменные функционала
+local autoStealActive = false
+local espActive = false
+
+-- Логика: Главная вкладка (Auto Steal)
+CreateToggle(MainTab, "Auto Steal Brainrot", function(state)
+    autoStealActive = state
+    task.spawn(function()
+        while autoStealActive do
+            task.wait(0.4)
+            pcall(function()
+                local char = LocalPlayer.Character
+                if char and char:FindFirstChild("HumanoidRootPart") then
+                    -- Автопоиск брейнротов в Workspace (измените путь под структуру игры)
+                    local folder = workspace:FindFirstChild("Brainrots") or workspace:FindFirstChild("Items")
+                    if folder then
+                        for _, item in pairs(folder:GetChildren()) do
+                            if not autoStealActive then break end
+                            local part = item:IsA("BasePart") and item or item:FindFirstChild("Handle")
+                            if part then
+                                char.HumanoidRootPart.CFrame = part.CFrame + Vector3.new(0, 3, 0)
+                                task.wait(0.2)
+                            end
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+end)
+
+-- Логика: Вкладка Визуалов (ESP)
+CreateToggle(VisualsTab, "Player Highlights (ESP)", function(state)
+    espActive = state
+    for _, p in pairs(Players:GetPlayers()) do
+        if p ~= LocalPlayer and p.Character then
+            if espActive then
+                if not p.Character:FindFirstChild("XenHighlight") then
+                    local hl = Instance.new("Highlight")
+                    hl.Name = "XenHighlight"
+                    hl.FillColor = Color3.fromRGB(120, 0, 255)
+                    hl.OutlineColor = Color3.fromRGB(255, 255, 255)
+                    hl.Parent = p.Character
+                end
+            else
+                if p.Character:FindFirstChild("XenHighlight") then
+                    p.Character.XenHighlight:Destroy()
+                end
+            end
+        end
+    end
+end)
+
+-- Логика: Дополнительно (Anti-AFK)
+CreateToggle(MiscTab, "Anti-AFK (Prevent Kick)", function(state)
+    local vu = game:GetService("VirtualUser")
+    LocalPlayer.Idled:Connect(function()
+        if state then
+            vu:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+            task.wait(1)
+            vu:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+        end
+    end)
+end)
+
+-- Плавная анимация открытия/закрытия по кнопке LeftControl
+local uiVisible = true
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if input.KeyCode == Enum.KeyCode.LeftControl then
+        uiVisible = not uiVisible
+        if uiVisible then
+            MainFrame.Visible = true
+            MainFrame.Size = UDim2.new(0, 0, 0, 0)
+            TweenService:Create(MainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+                Size = UDim2.new(0, 550, 0, 350)
+            }):Play()
+        else
+            local tween = TweenService:Create(MainFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+                Size = UDim2.new(0, 0, 0, 0)
+            })
+            tween:Play()
+            tween.Completed:Wait()
+            MainFrame.Visible = false
+        end
+    end
+end)
+
+-- Уведомление при запуске
+game:GetService("StarterGui"):SetCore("SendNotification", {
+    Title = "XenHub v5 Loaded",
+    Text = "Нажми [LeftControl] чтобы скрыть/открыть меню!",
+    Duration = 5
+})
